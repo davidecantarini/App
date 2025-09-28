@@ -42,6 +42,12 @@ app.post('/api/notes', (request, response) => {
     return response.status(400).json({ error: 'content missing' })
   }
 
+  // All other GET requests not handled by API go to React
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/dist/index.html')
+})
+
+
   const note = {
     content: body.content,
     important: body.important || false,
@@ -56,4 +62,6 @@ const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+
+app.use(express.static('dist'))
 
